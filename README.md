@@ -55,7 +55,8 @@ detailed test reports after runs.
 After running tests, generate Allure reports using:
 
 ```bash
-allure serve
+npm allure:generate
+npm allure:open
 ```
 
 ## Project Structure
