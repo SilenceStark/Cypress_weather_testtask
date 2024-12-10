@@ -1,0 +1,19 @@
+{
+  "name": "cypress_project",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "cy:open": "cypress open",
+    "cy:run": "cypress run --browser chrome",
+    "allure:report": "allure generate allure-results --clean",
+    "allure:generate": "allure generate cypress/reports --clean -o allure-report",
+    "allure:open": "allure open allure-report"
+  },
+  "devDependencies": {
+    "@shelex/cypress-allure-plugin": "^2.40.2",
+    "allure-commandline": "^2.32.0",
+    "cypress": "^13.16.1",
+    "cypress-multi-reporters": "^2.0.4",
+    "mocha-junit-reporter": "^2.2.1"
+  }
+}

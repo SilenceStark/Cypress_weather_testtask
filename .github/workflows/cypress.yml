@@ -1,0 +1,53 @@
+name: Cypress Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-24.04
+    services:
+      docker:
+        image: cypress/included:13.16.1
+        options: --shm-size 2g
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          npm install
+          npm install --save-dev @shelex/cypress-allure-plugin
+
+      - name: Install Cypress binary
+        run: npx cypress install
+
+      - name: Run Cypress tests
+        run: npm run cy:run
+
+      - name: Generate Allure Report
+        run: npm run allure:generate
+
+      - name: Upload Allure Report as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report/
+
+      - name: Cache Cypress binaries
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-cypress-
